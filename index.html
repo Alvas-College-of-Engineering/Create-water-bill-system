@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Water Bill System</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      width: 450px;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .bill {
+      margin-top: 25px;
+      background: #f4f4f4;
+      padding: 20px;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .bill h2 {
+      text-align: center;
+      margin-bottom: 15px;
+      color: #222;
+    }
+
+    .bill p {
+      margin: 8px 0;
+      font-size: 17px;
+    }
+
+    .total {
+      font-size: 20px;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Water Bill System</h1>
+
+    <div class="form-group">
+      <label>Customer ID</label>
+      <input type="number" id="customerId" placeholder="Enter Customer ID">
+    </div>
+
+    <div class="form-group">
+      <label>Customer Name</label>
+      <input type="text" id="customerName" placeholder="Enter Customer Name">
+    </div>
+
+    <div class="form-group">
+      <label>Water Units Consumed</label>
+      <input type="number" id="waterUnits" placeholder="Enter Water Units">
+    </div>
+
+    <button onclick="generateBill()">Generate Bill</button>
+
+    <div class="bill" id="billSection">
+      <h2>Water Bill Receipt</h2>
+
+      <p><strong>Customer ID:</strong> <span id="billId"></span></p>
+      <p><strong>Customer Name:</strong> <span id="billName"></span></p>
+      <p><strong>Water Units:</strong> <span id="billUnits"></span></p>
+      <p><strong>Bill Amount:</strong> ₹<span id="billAmount"></span></p>
+      <p><strong>Tax (10%):</strong> ₹<span id="billTax"></span></p>
+      <p class="total"><strong>Total Bill:</strong> ₹<span id="billTotal"></span></p>
+    </div>
+  </div>
+
+  <script>
+    function generateBill() {
+
+      const id = document.getElementById("customerId").value;
+      const name = document.getElementById("customerName").value;
+      const units = parseFloat(document.getElementById("waterUnits").value);
+
+      if (id === "" || name === "" || isNaN(units)) {
+        alert("Please fill all fields");
+        return;
+      }
+
+      let billAmount = 0;
+
+      if (units <= 100) {
+        billAmount = units * 5;
+      }
+      else if (units <= 300) {
+        billAmount = units * 8;
+      }
+      else {
+        billAmount = units * 10;
+      }
+
+      const tax = billAmount * 0.10;
+      const total = billAmount + tax;
+
+      document.getElementById("billId").innerText = id;
+      document.getElementById("billName").innerText = name;
+      document.getElementById("billUnits").innerText = units;
+      document.getElementById("billAmount").innerText = billAmount.toFixed(2);
+      document.getElementById("billTax").innerText = tax.toFixed(2);
+      document.getElementById("billTotal").innerText = total.toFixed(2);
+
+      document.getElementById("billSection").style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
